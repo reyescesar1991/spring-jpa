@@ -1,7 +1,11 @@
 package com.example.databaseJPA.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.TableGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +18,21 @@ import lombok.NoArgsConstructor;
 public class Author {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE,
+        generator = "author_sequence"
+    )
+    // @SequenceGenerator(
+    //     name = "author_sequence",
+    //     sequenceName = "author_sequence",
+    //     allocationSize = 1
+    // )
+    @TableGenerator(
+        name = "author_sequence",
+        table = "id_generator",
+        pkColumnName = "id_name",
+        valueColumnName = "id_value",
+        allocationSize = 1
+    )
     private Integer id;
     private String firstName;
     private String lastName;
