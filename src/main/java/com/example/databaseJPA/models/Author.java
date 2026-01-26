@@ -1,44 +1,65 @@
 package com.example.databaseJPA.models;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.TableGenerator;
+import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 // @Getter
 // @Setter 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-// @AllArgsConstructor
+@AllArgsConstructor
 @Data //Genera getters y setters automaticamente, equals, hashcode, toString y un constructor
 @Entity
-public class Author {
+// @Table(name = "AUTHOR_TBL")
+@SuperBuilder
+public class Author extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,
-        generator = "author_sequence"
-    )
+    // @Id
+    // @GeneratedValue
+    // private Integer id;
+    /*(strategy = GenerationType.TABLE, // Tipo de generacion de la clave primaria
+        generator = "author_sequence" // Nombre del generador de secuencia
+    )*/
     // @SequenceGenerator(
     //     name = "author_sequence",
     //     sequenceName = "author_sequence",
     //     allocationSize = 1
     // )
+    /* 
     @TableGenerator(
-        name = "author_sequence",
-        table = "id_generator",
-        pkColumnName = "id_name",
-        valueColumnName = "id_value",
-        allocationSize = 1
+        name = "author_sequence", // Nombre de la tabla
+        table = "id_generator", // Nombre de la tabla de almacenamiento de la secuencia
+        pkColumnName = "id_name", // Nombre de la columna que almacena el nombre de la tabla
+        valueColumnName = "id_value",  // Nombre de la columna que almacena el valor de la secuencia
+        allocationSize = 1 // Tamaño de la secuencia
+    )*/
+
+    @Column(
+        name = "first_name", // Nombre de la columna en la base de datos
+        length = 35
     )
-    private Integer id;
     private String firstName;
     private String lastName;
+
+    @Column(
+        unique = true, // No puede haber dos registros con el mismo valor
+        nullable = false, // No puede ser nulo
+        length = 50
+    )
     private String email;
     private Integer age;
 
+    @ManyToMany(mappedBy = "authors")
+    private List<Course> courses;
 
     // Getters and setters
 
