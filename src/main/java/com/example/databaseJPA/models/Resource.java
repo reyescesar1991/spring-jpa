@@ -1,22 +1,32 @@
 package com.example.databaseJPA.models;
 
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data //Genera getters y setters automaticamente, equals, hashcode, toString y un constructor
 @Entity
 // @Table(name = "AUTHOR_TBL")
 @SuperBuilder
-public class Resource extends BaseEntity {
+@Inheritance(strategy = InheritanceType.JOINED) //Tipo de herencia que se va a usar
+// //Nombre de la columna que va a almacenar el tipo de recurso solo con Singled table
+public class Resource {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
 
     private String name;
 
